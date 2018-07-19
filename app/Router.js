@@ -25,10 +25,11 @@ import TabIcon from './Component/TabIcon';
 // import TabMiddleIcon from './Component/TabMiddleIcon'
 
 
-import Test1 from './Pages/Test1';
 import Test2 from './Pages/Test2';
 import Test3 from './Pages/Test3';
 import Test4 from './Pages/Test4';
+
+import RealtimePower from './Pages/RealtimePower/RealtimePower';
 
 
 import Login from './Pages/Login/Login';
@@ -104,15 +105,15 @@ const router = (...props) => (
                     activeTintColor='#4ECBFC'       // 选中tabbar图标的颜色
                     inactiveTintColor='#aaa'        // 未选中tabbar图标的颜色
                 >
-                    <Stack key="Test1"
-                           title={'识兔1'}
+                    <Stack key="RealtimePower"
+                           title={'实时数据'}
                            image={Images.ShiTu}
                            selectedImage={Images.ShiTu}
                     >
-                        <Scene component={Test1} key="Test1_key"/>
+                        <Scene component={RealtimePower} key="RealtimePower_key"/>
                     </Stack>
                     <Stack key='Test2'
-                           title='百思'
+                           title='历史数据'
                            image={Images.Gank}
                            selectedImage={Images.Gank}
                     >

@@ -12,9 +12,13 @@ import {
     TouchableOpacity,
 } from 'react-native';
 
-import { SegmentedView, Button, NavigationBar, Overlay, Input , } from 'teaset';
+import { SegmentedView, Button, NavigationBar, Overlay, Input  } from 'teaset';
 import { observer } from 'mobx-react/native'
 import { observable, computed, action, runInAction } from 'mobx'
+
+import {NoticeBar} from 'antd-mobile-rn'
+
+import ApiAxios from '../utils/ApiAxios';
 
 
 import LoginInput from './Component/LoginInput';
@@ -23,11 +27,10 @@ import LoginInput from './Component/LoginInput';
 const LoginView = (props) => {
     return(
         <View style={styles.loginViewStyle}>
-            <LoginInput placeholder='请输入手机号'
-                        onChangeText={props.onChangeTopText}
+            <LoginInput placeholder='请输入账号' maxLength={100}
+                        onChangeText={props.onChangeTopText} value={props.topText}
             />
-            {
-                props.isPass ?
+
                     <View>
                         <LoginInput placeholder='请输入密码'
                                     onChangeText={props.onChangeBottomText}
@@ -45,30 +48,7 @@ const LoginView = (props) => {
                             </Text>
                         </View>
                     </View>
-                    :
-                    <View >
-                        <LoginInput isVerify={true}
-                                    placeholder='请输入验证码'
-                                    getVerifyCode={props.getVerifyCode}
-                                    onChangeText={props.onChangeBottomText}
-                                    onFocus={props.verifyFocus}
-                        />
-                        {
-                            props.isImage?
-                                <LoginInput isImage={props.isImage}
-                                            placeholder='请先输入图片验证码'
-                                            onChangeText={props.onChangeBottomText}
-                                            getVerifyCode={props.getVerifyCode}
-                                            refreshImage={props.refreshImage}
-                                            imageUrl={props.imageUrl}
-                                            onBlur={props.imageCodeBlur}
-                                />
-                            :
-                            null
-                        }
-                        <View style={{height: px2dp(60)}}/>
-                    </View>
-            }
+
 
             <Button title={'登录'}
                     style={styles.loginButtonStyle}
@@ -104,9 +84,9 @@ export default class Login extends Component {
                 <NavigationBar title='登录'
                                style={{height:64,backgroundColor:'white'}}
                                statusBarStyle='default'
-                               rightView={
+                               leftView={
                                    <TouchableOpacity onPress={()=>Actions.pop()}>
-                                       <Text>关闭</Text>
+                                       <Text>武汉大学非侵入测量云平台</Text>
                                    </TouchableOpacity>
                                }
                 />
@@ -114,20 +94,7 @@ export default class Login extends Component {
                                type='carousel'
                                indicatorLineColor={'#000'}
                 >
-                    <SegmentedView.Sheet title='短信登录'
-                                         titleStyle={{color:'#666'}}
-                                         activeTitleStyle={{color:'#333'}}
-                    >
-                        <LoginView  onPress={()=>this.onLoginPress(1)}
-                                    getVerifyCode={()=>{}}
-                                    onChangeTopText={(text)=>{
-                                        this.mobileCode = text;
-                                    }}
-                                    onChangeBottomText={(text)=>{
-                                        this.verifyCode = text;
-                                    }}
-                        />
-                    </SegmentedView.Sheet>
+
                     <SegmentedView.Sheet title='密码登录'
                                          titleStyle={{color:'#333'}}
                                          activeTitleStyle={{color:'#000'}}
@@ -142,10 +109,19 @@ export default class Login extends Component {
                                        // console.log(text);
                                        this.passCode = text;
                                    }}
+
+                                   topText={this.mobileCode}
                         />
+
+                        <NoticeBar mode="closable" >
+
+                            {this.state.data}
+
+                        </NoticeBar>
 
                     </SegmentedView.Sheet>
                 </SegmentedView>
+
             </View>
         );
     }
@@ -153,7 +129,21 @@ export default class Login extends Component {
 
     onLoginPress = (code)=>{
         Actions.root1();
-        console.log("Hello");
+        //console.log("Hello");
+        const that=this;
+        ApiAxios.get('/getRealtimePower?deviceId=10')
+            .then(function(response){
+                console.log(response);
+                that.setState({
+                    data: response.code
+                });
+            })
+            .catch(function(err){
+                that.setState({
+                    data: err.toString()
+                });
+            });
+
     }
 
 }

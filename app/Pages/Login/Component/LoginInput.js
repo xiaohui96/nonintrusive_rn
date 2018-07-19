@@ -27,14 +27,8 @@ const LoginInput = (props) => {
                    maxLength={props.maxLength}
                    autoCapitalize='none'
                    clearButtonMode={'always'}
+                   value={props.value}
             />
-            {
-                props.isVerify ?
-                    <TouchableOpacity onPress={props.getVerifyCode}>
-                        <Text style={iStyle.inputTitleStyle}>获取验证码</Text>
-                    </TouchableOpacity>
-                    :null
-            }
 
         </View>
     )
