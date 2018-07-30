@@ -26,34 +26,43 @@ export default class RealtimePower extends Reflux.Component {
         this.state = {};
     }
 
-    componentWillMount() {
-        super.componentWillMount();
-        //PowerActions.GetRealtimePower(this.props.device.id);
-        //this.getRealtimePower(this.props.device.id);
-        console.log("will mount");
-        console.log(AuthUtils);
-        AuthUtils.verifyLogin(
-            (user)=>{
-                this.setState({
-                    user:user
-                });
-                DeviceUtils.getDevices(user.id,
-                    (data)=>{
-                        this.setState({
-                            deviceList:data
-                        });
-                    }
-                    )
-            }
-            );
+    componentDidMount() {
+        //super.componentDidMount();
+        this.getDevices();
     }
 
+    getDevices(user){
+        if(user==undefined){
+            user=this.props.user;
+        }
+        if(user!=undefined&&this.state.deviceList==undefined){
+            DeviceUtils.getDevices(user.id,
+                (data)=>{
+                    //console.log(this.state);
+                    this.setState({
+                        deviceList:data
+                    });
+                }
+            )
+        }
+    }
+
+    componentWillReceiveProps(newProps) {
+        //console.log('Component WILL RECEIVE PROPS!');
+        const {user}=newProps;
+        //console.log(user);
+
+        this.getDevices(user);
+    }
+
+
     render() {
-        const {user,deviceList}=this.state;
+        const {user}=this.props;
+        const {deviceList}=this.state;
         if(user==undefined||deviceList==undefined){
             return null;
         }
-        console.log(user,deviceList);
+        //console.log(user,deviceList);
         return (
 
             <ScrollView style={{ paddingTop: 30 }}>
