@@ -48,10 +48,9 @@ export default class RealtimePower extends Reflux.Component {
     }
 
     componentWillReceiveProps(newProps) {
-        //console.log('Component WILL RECEIVE PROPS!');
+        console.log('Component WILL RECEIVE PROPS!');
         const {user}=newProps;
-        //console.log(user);
-
+        console.log(user);
         this.getDevices(user);
     }
 

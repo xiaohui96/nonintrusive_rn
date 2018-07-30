@@ -57,18 +57,27 @@ export default class router extends Reflux.Component{
         };
     };
 
-    componentDidMount() {
-        //super.componentDidMount();
-        //console.log("Router did mount");
+    verifyUser=()=>{
         AuthUtils.verifyLogin(
             (user)=>{
                 this.setState({
                     user:user
                 });
                 Actions.refresh({user:user});
+            },
+            ()=>{
+                Actions.login({router:this});
             }
         );
     }
+
+    componentDidMount() {
+        //super.componentDidMount();
+        //console.log("Router did mount");
+        this.verifyUser();
+    }
+
+
 
     getSceneStyle = () => ({
         backgroundColor: Theme.backgroundColor,
@@ -86,6 +95,7 @@ export default class router extends Reflux.Component{
     }
 
     render(){
+        //console.log("render");
         return(
             <Router createReducer={this.reducerCreate}
                     getSceneStyle={this.getSceneStyle}
@@ -147,6 +157,7 @@ export default class router extends Reflux.Component{
                             gesturesEnabled={false}
                             hideNavBar
                             onExit={() => console.log('onExit')}
+                            onEnter={()=>{Actions.refresh({router:this})}}
                             onLeft={Actions.pop}
                         />
                         <Scene

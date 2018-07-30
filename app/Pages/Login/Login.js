@@ -165,7 +165,7 @@ export default class Login extends Reflux.Component {
         AuthActions.Login({
             account:this.mobileCode,
             password:this.passCode
-        });
+        },this.props.router);
 
     }
 

@@ -14,7 +14,7 @@ class AuthStore extends Reflux.Store {
         }
     }
 
-    onLogin( formData ) {
+    onLogin( formData,router ) {
         console.log("Login");
         formData.password = hex_md5(formData.password);
         console.log(formData);
@@ -22,11 +22,11 @@ class AuthStore extends Reflux.Store {
             .then( (response) => {
                 //console.log(response);
                 if( response.code == 100 ) {
-                    this.setState({
-                        User: response.data
-                    });
 
-                    Actions.root1();
+                    router.verifyUser();
+
+                    Actions.RealtimePower_key({user:this.state.user});
+
                     /*
                     if(response.data.role=='2') {
                         history.push('/admin');

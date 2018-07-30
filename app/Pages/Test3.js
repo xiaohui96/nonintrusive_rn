@@ -10,6 +10,22 @@ import {
     Image,
 } from 'react-native';
 
+import {
+    Scene,
+    Router,
+    Actions,
+    Reducer,
+    ActionConst,
+    Overlay,
+    Tabs,
+    Modal,
+    Drawer,
+    Stack,
+    Lightbox,
+} from 'react-native-router-flux';
+
+import axios from './utils/ApiAxios';
+
 export default class Test3 extends Component {
     constructor(props) {
         super(props);
@@ -21,11 +37,23 @@ export default class Test3 extends Component {
         //super.componentWillMount();
     }
 
+    logout(){
+        console.log("Logout");
+        axios.get("/logout")
+            .then( (response) => {
+                this.setState({
+                    User: undefined
+                })
+                //history.push('/login');
+                Actions.login();
+            })
+    }
+
     render() {
 
         return (
             <View style={styles.container}>
-
+                <Text onPress={()=>this.logout()}>Logout</Text>
             </View>
         );
     }
