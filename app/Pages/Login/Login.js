@@ -3,6 +3,9 @@
  */
 
 import React, {Component} from 'react';
+
+import Reflux from 'reflux';
+
 import {
     StyleSheet,
     Text,
@@ -23,6 +26,8 @@ import ApiAxios from '../utils/ApiAxios';
 
 import LoginInput from './Component/LoginInput';
 
+import AuthActions from '../../actions/AuthActions';
+import authStore from '../../stores/authStore';
 
 const LoginView = (props) => {
     return(
@@ -33,7 +38,7 @@ const LoginView = (props) => {
 
                     <View>
                         <LoginInput placeholder='请输入密码'
-                                    onChangeText={props.onChangeBottomText}
+                                    onChangeText={props.onChangeBottomText} value={props.bottomText} type="password"
                         />
                         <View style={{
                             backgroundColor:Theme.transparentColor,
@@ -62,15 +67,26 @@ const LoginView = (props) => {
                     创建账号
                 </Text>
             </View>
+            {
+                props.message==undefined?null:(
+                    <NoticeBar >
+                        { props.message}
+                    </NoticeBar>
+                )
+            }
+
         </View>
     )
 }
 
 @observer
-export default class Login extends Component {
+export default class Login extends Reflux.Component {
     constructor(props) {
         super(props);
-        this.state = {};
+        this.state = {
+            errMessage:undefined
+        };
+        this.store = authStore;
     }
 
     @observable mobileCode = '';
@@ -78,7 +94,7 @@ export default class Login extends Component {
     @observable passCode = '';
     @observable isImage = false;
     render() {
-        console.log(this.imageUrl);
+        //console.log(this.imageUrl);
         return (
             <View style={styles.container}>
                 <NavigationBar title='登录'
@@ -106,18 +122,15 @@ export default class Login extends Component {
                                        this.mobileCode = text;
                                    }}
                                    onChangeBottomText={(text)=>{
-                                       // console.log(text);
+                                        //console.log(text);
                                        this.passCode = text;
                                    }}
 
                                    topText={this.mobileCode}
+                                   bottomText={this.passCode}
+                                   message={this.state.errMessage}
                         />
 
-                        <NoticeBar mode="closable" >
-
-                            {this.state.data}
-
-                        </NoticeBar>
 
                     </SegmentedView.Sheet>
                 </SegmentedView>
@@ -128,23 +141,34 @@ export default class Login extends Component {
 
 
     onLoginPress = (code)=>{
-        Actions.root1();
-        //console.log("Hello");
-        const that=this;
-        ApiAxios.get('/getRealtimePower?deviceId=10')
-            .then(function(response){
-                console.log(response);
-                that.setState({
-                    data: response.code
-                });
-            })
-            .catch(function(err){
-                that.setState({
-                    data: err.toString()
-                });
+
+        //Actions.HistoryPower_key();
+
+        console.log(this.mobileCode);
+        if(this.mobileCode==undefined||this.mobileCode==null||this.mobileCode==""){
+            this.setState({
+                errMessage:"用户名不能为空！"
             });
+            return;
+        }
+        if(this.passCode==undefined||this.passCode==null||this.passCode==""){
+            this.setState({
+                errMessage:"密码不能为空！"
+            });
+            return;
+        }
+        this.setState({
+            loginFailed: false,
+            errMessage:undefined
+        });
+        //code.preventDefault();
+        AuthActions.Login({
+            account:this.mobileCode,
+            password:this.passCode
+        });
 
     }
+
 
 }
 

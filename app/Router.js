@@ -30,6 +30,7 @@ import Test3 from './Pages/Test3';
 import Test4 from './Pages/Test4';
 
 import RealtimePower from './Pages/RealtimePower/RealtimePower';
+import HistoryPower from './Pages/HistoryPower/HistoryPower';
 
 
 import Login from './Pages/Login/Login';
@@ -117,7 +118,7 @@ const router = (...props) => (
                            image={Images.Gank}
                            selectedImage={Images.Gank}
                     >
-                        <Scene component={Test2} key="Test2_key"/>
+                        <Scene component={HistoryPower} key="HistoryPower_key"/>
                     </Stack>
                     <Stack key="Test3"
                            title='我的'
@@ -128,7 +129,7 @@ const router = (...props) => (
                     </Stack>
                 </Tabs>
                 {/*// 推荐把需要的路由放在<Tabs/>后面，跳转的时候通过key，Actions.Test3_key*/}
-                <Scene component={Test3} key="Test3_key"/>
+                <Scene component={Test3} onEnter={()=>{Actions.refresh({User:"Hello"})}} key="Test3_key"/>
 
             </Stack>
 

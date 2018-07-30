@@ -9,7 +9,6 @@ import {
     Text,
     View,
     Image,
-    ScrollView
 } from 'react-native';
 
 import {Card, WhiteSpace, WingBlank} from 'antd-mobile-rn'
@@ -55,8 +54,7 @@ export default class RealtimePower extends Reflux.Component {
         }
         console.log(user,deviceList);
         return (
-
-            <ScrollView style={{ paddingTop: 30 }}>
+            <View style={{ paddingTop: 30 }}>
 
                 <WingBlank size="lg">
                     {
@@ -69,11 +67,73 @@ export default class RealtimePower extends Reflux.Component {
                         })
                     }
 
+                    <Card>
+
+                        <Card.Header
+
+                            title="This is title1"
+
+                            thumbStyle={{ width: 30, height: 30 }}
+
+                            thumb="https://gw.alipayobjects.com/zos/rmsportal/MRhHctKOineMbKAZslML.jpg"
+
+                            extra="this is extra"
+
+                        />
+
+                        <Card.Body>
+
+                            <View style={{ height: 42 }}>
+
+                                <Text style={{ marginLeft: 16 }}>Card Content</Text>
+
+                            </View>
+
+                        </Card.Body>
+
+                        <Card.Footer
+
+                            content="footer content"
+
+                            extra="footer extra content"
+
+                        />
+
+                    </Card>
+
                 </WingBlank>
 
+                <WhiteSpace size="lg" />
 
-            </ScrollView>
+                <Card full>
 
+                    <Card.Header
+
+                        title="Full Column"
+
+                        thumbStyle={{ width: 30, height: 30 }}
+
+                        thumb="https://gw.alipayobjects.com/zos/rmsportal/MRhHctKOineMbKAZslML.jpg"
+
+                        extra="this is extra1"
+
+                    />
+
+                    <Card.Body>
+
+                        <View style={{ height: 42 }}>
+
+                            <Text style={{ marginLeft: 16 }}>Card Content</Text>
+
+                        </View>
+
+                    </Card.Body>
+
+                    <Card.Footer content="footer content" extra="footer extra content" />
+
+                </Card>
+
+            </View>
         );
     }
 }

@@ -18,9 +18,9 @@ import axios from '../utils/ApiAxios';
 import AuthUtils from '../utils/AuthUtils'
 import DeviceUtils from '../utils/DeviceUtils'
 
-import RealtimeDevice_CelijiaExpr from './RealtimeDevice_CelijiaExpr'
+import HistoryDevice_CelijiaExpr from './HistoryDevice_CelijiaExpr'
 
-export default class RealtimePower extends Reflux.Component {
+export default class HistoryPower extends Reflux.Component {
     constructor(props) {
         super(props);
         this.state = {};
@@ -43,9 +43,9 @@ export default class RealtimePower extends Reflux.Component {
                             deviceList:data
                         });
                     }
-                    )
+                )
             }
-            );
+        );
     }
 
     render() {
@@ -55,7 +55,6 @@ export default class RealtimePower extends Reflux.Component {
         }
         console.log(user,deviceList);
         return (
-
             <ScrollView style={{ paddingTop: 30 }}>
 
                 <WingBlank size="lg">
@@ -63,7 +62,7 @@ export default class RealtimePower extends Reflux.Component {
                         deviceList.map((device,i) =>{
                             switch(device.typeid){
                                 case 1: //测力佳三相表
-                                    return <RealtimeDevice_CelijiaExpr device={device} key={i}/>;
+                                    return <HistoryDevice_CelijiaExpr device={device} key={i}/>;
                                     break;
                             }
                         })
@@ -71,9 +70,7 @@ export default class RealtimePower extends Reflux.Component {
 
                 </WingBlank>
 
-
             </ScrollView>
-
         );
     }
 }

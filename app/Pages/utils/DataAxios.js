@@ -1,8 +1,8 @@
 import axios from 'axios';
 
 var instance = axios.create({
-    //baseURL: 'http://192.168.46.104:8090/Noninstrusive/data/',
-    baseURL: 'http://192.168.46.182/api/',
+    baseURL: 'http://192.168.46.104:8090/Noninstrusive/data/',
+    //baseURL: 'http://192.168.46.182/api/',
     timeout: 5000,
 });
 

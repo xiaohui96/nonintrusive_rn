@@ -16,7 +16,13 @@ export default class Test3 extends Component {
         this.state = {};
     }
 
+    componentWillMount() {
+        console.log(this.props.User);
+        //super.componentWillMount();
+    }
+
     render() {
+
         return (
             <View style={styles.container}>
 
