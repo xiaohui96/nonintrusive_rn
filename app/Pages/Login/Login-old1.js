@@ -55,10 +55,10 @@ const LoginView = (props) => {
                     </View>
 
 
-            <Button title={props.isLogging?"登录中,请稍候...":'登录'}
+            <Button title={'登录'}
                     style={styles.loginButtonStyle}
                     titleStyle={{fontSize:FONT_SIZE(14), color:'#fff'}}
-                    onPress={props.onPress} disabled={props.isLogging}
+                    onPress={props.onPress}
             />
             <View style={{flex:1,alignItems:'center',marginTop:px2dp(44)}}>
                 <Text style={styles.createAccountStyle}
@@ -84,8 +84,7 @@ export default class Login extends Reflux.Component {
     constructor(props) {
         super(props);
         this.state = {
-            errMessage:undefined,
-            isLogging:false
+            errMessage:undefined
         };
         this.store = authStore;
     }
@@ -96,14 +95,6 @@ export default class Login extends Reflux.Component {
     @observable isImage = false;
     render() {
         //console.log(this.imageUrl);
-        var errMessage=undefined;
-        if(this.state.errMessage!=undefined){
-            errMessage=this.state.errMessage;
-        }
-        else if(this.props.errMessage!=undefined){
-            errMessage=this.props.errMessage;
-        }
-        console.log(errMessage);
         return (
             <View style={styles.container}>
                 <NavigationBar title='登录'
@@ -137,8 +128,7 @@ export default class Login extends Reflux.Component {
 
                                    topText={this.mobileCode}
                                    bottomText={this.passCode}
-                                   message={errMessage}
-                                   isLogging={this.state.isLogging}
+                                   message={this.state.errMessage}
                         />
 
 
@@ -177,11 +167,6 @@ export default class Login extends Reflux.Component {
             password:this.passCode
         },this.props.router);
 
-        this.setState(
-            {
-                isLogging:true
-            }
-        )
     }
 
 

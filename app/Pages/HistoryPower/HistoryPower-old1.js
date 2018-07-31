@@ -26,12 +26,19 @@ export default class HistoryPower extends Reflux.Component {
         this.state = {};
     }
 
-    getDevices=(user)=>{
-        console.log(user);
+    componentDidMount() {
+        //super.componentWillMount();
+        this.getDevices();
+    }
+
+    getDevices(user){
+        if(user==undefined){
+            user=this.props.user;
+        }
         if(user!=undefined){
             DeviceUtils.getDevices(user.id,
                 (data)=>{
-                    console.log(data);
+                    //console.log(this.state);
                     this.setState({
                         deviceList:data
                     });
@@ -41,22 +48,20 @@ export default class HistoryPower extends Reflux.Component {
     }
 
     onEnter(){
-        const {router}=this.props;
-        console.log("Enter RealtimePower");
-        if(router!=undefined){
-            const {user}=router.state;
-            if(user!=undefined){
-                this.setState({
-                    user:user
-                });
-                this.getDevices(user);
-                //console.log(user);
-            }
-        }
+        console.log("Enter HistoryPower");
+    }
+
+    componentWillReceiveProps(newProps) {
+        //console.log('Component WILL RECEIVE PROPS!');
+        const {user}=newProps;
+        //console.log(user);
+
+        this.getDevices(user);
     }
 
     render() {
-        const {user,deviceList}=this.state;
+        const {user}=this.props;
+        const {deviceList}=this.state;
         //console.log(user,deviceList);
         if(user==undefined||deviceList==undefined){
             return null;

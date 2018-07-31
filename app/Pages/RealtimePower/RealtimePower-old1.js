@@ -18,20 +18,28 @@ import axios from '../utils/ApiAxios';
 import AuthUtils from '../utils/AuthUtils'
 import DeviceUtils from '../utils/DeviceUtils'
 
-import HistoryDevice_CelijiaExpr from './HistoryDevice_CelijiaExpr'
+import RealtimeDevice_CelijiaExpr from './RealtimeDevice_CelijiaExpr'
 
-export default class HistoryPower extends Reflux.Component {
+export default class RealtimePower extends Reflux.Component {
     constructor(props) {
         super(props);
         this.state = {};
     }
 
-    getDevices=(user)=>{
-        console.log(user);
+    componentDidMount() {
+        //super.componentDidMount();
+        this.getDevices();
+        this.forceUpdate();
+    }
+
+    getDevices(user){
+        if(user==undefined){
+            user=this.props.user;
+        }
         if(user!=undefined){
             DeviceUtils.getDevices(user.id,
                 (data)=>{
-                    console.log(data);
+                    //console.log(this.state);
                     this.setState({
                         deviceList:data
                     });
@@ -41,28 +49,26 @@ export default class HistoryPower extends Reflux.Component {
     }
 
     onEnter(){
-        const {router}=this.props;
         console.log("Enter RealtimePower");
-        if(router!=undefined){
-            const {user}=router.state;
-            if(user!=undefined){
-                this.setState({
-                    user:user
-                });
-                this.getDevices(user);
-                //console.log(user);
-            }
-        }
     }
 
+    componentWillReceiveProps(newProps) {
+        console.log('Component WILL RECEIVE PROPS!');
+        const {user}=newProps;
+        console.log(user);
+        this.getDevices(user);
+    }
+
+
     render() {
-        const {user,deviceList}=this.state;
-        //console.log(user,deviceList);
+        const {user}=this.props;
+        const {deviceList}=this.state;
         if(user==undefined||deviceList==undefined){
             return null;
         }
-
+        //console.log(user,deviceList);
         return (
+
             <ScrollView style={{ paddingTop: 30 }}>
 
                 <WingBlank size="lg">
@@ -70,7 +76,7 @@ export default class HistoryPower extends Reflux.Component {
                         deviceList.map((device,i) =>{
                             switch(device.typeid){
                                 case 1: //测力佳三相表
-                                    return <HistoryDevice_CelijiaExpr device={device} key={i}/>;
+                                    return <RealtimeDevice_CelijiaExpr device={device} key={i}/>;
                                     break;
                             }
                         })
@@ -78,7 +84,9 @@ export default class HistoryPower extends Reflux.Component {
 
                 </WingBlank>
 
+
             </ScrollView>
+
         );
     }
 }

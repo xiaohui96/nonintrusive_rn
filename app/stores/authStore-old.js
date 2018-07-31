@@ -25,7 +25,7 @@ class AuthStore extends Reflux.Store {
 
                     router.verifyUser();
 
-                    Actions.RealtimePower_key({router:router});
+                    Actions.RealtimePower_key({user:this.state.user});
 
                     /*
                     if(response.data.role=='2') {
@@ -36,10 +36,8 @@ class AuthStore extends Reflux.Store {
                     }*/
                 } else {
                     this.setState({
-                        isLogging: false
+                        loginFailed: true
                     })
-                    console.log('Login error');
-                    Actions.refresh({errMessage:"用户名或密码错误"});
                 }
             })
             .catch( (error) => {

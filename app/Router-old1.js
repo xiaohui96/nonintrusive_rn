@@ -63,7 +63,7 @@ export default class router extends Reflux.Component{
                 this.setState({
                     user:user
                 });
-                //Actions.refresh({user:user});
+                Actions.refresh({user:user});
             },
             ()=>{
                 Actions.login({router:this});
@@ -127,14 +127,14 @@ export default class router extends Reflux.Component{
                                    image={Images.ShiTu}
                                    selectedImage={Images.ShiTu}
                             >
-                                <Scene component={RealtimePower} onEnter={()=>{Actions.refresh({router:this})}} key="RealtimePower_key"/>
+                                <Scene component={RealtimePower} onEnter={()=>{Actions.refresh({user:this.state.user})}} key="RealtimePower_key"/>
                             </Stack>
                             <Stack key='Test2'
                                    title='历史数据'
                                    image={Images.Gank}
                                    selectedImage={Images.Gank}
                             >
-                                <Scene component={HistoryPower} onEnter={()=>{Actions.refresh({router:this})}} key="HistoryPower_key"/>
+                                <Scene component={HistoryPower} onEnter={()=>{Actions.refresh({user:this.state.user})}} key="HistoryPower_key"/>
                             </Stack>
                             <Stack key="Test3"
                                    title='我的'

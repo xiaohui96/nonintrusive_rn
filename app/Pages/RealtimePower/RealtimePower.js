@@ -26,19 +26,12 @@ export default class RealtimePower extends Reflux.Component {
         this.state = {};
     }
 
-    componentDidMount() {
-        //super.componentDidMount();
-        this.getDevices();
-    }
-
-    getDevices(user){
-        if(user==undefined){
-            user=this.props.user;
-        }
-        if(user!=undefined&&this.state.deviceList==undefined){
+    getDevices=(user)=>{
+        console.log(user);
+        if(user!=undefined){
             DeviceUtils.getDevices(user.id,
                 (data)=>{
-                    //console.log(this.state);
+                    console.log(data);
                     this.setState({
                         deviceList:data
                     });
@@ -47,17 +40,27 @@ export default class RealtimePower extends Reflux.Component {
         }
     }
 
-    componentWillReceiveProps(newProps) {
-        console.log('Component WILL RECEIVE PROPS!');
-        const {user}=newProps;
-        console.log(user);
-        this.getDevices(user);
+    onEnter(){
+        const {router}=this.props;
+        console.log("Enter RealtimePower");
+        if(router!=undefined){
+            const {user}=router.state;
+            if(user!=undefined){
+                this.setState({
+                    user:user
+                });
+                this.getDevices(user);
+                //console.log(user);
+            }
+        }
     }
 
+    onExit(){
+        console.log("Exit");
+    }
 
     render() {
-        const {user}=this.props;
-        const {deviceList}=this.state;
+        const {user,deviceList}=this.state;
         if(user==undefined||deviceList==undefined){
             return null;
         }
