@@ -40,9 +40,10 @@ export default class HistoryPower extends Reflux.Component {
         }
     }
 
-    onEnter(){
+    componentDidMount(){
+        console.log("History Power mount");
         const {router}=this.props;
-        console.log("Enter RealtimePower");
+        //console.log("Enter RealtimePower");
         if(router!=undefined){
             const {user}=router.state;
             if(user!=undefined){
@@ -53,6 +54,10 @@ export default class HistoryPower extends Reflux.Component {
                 //console.log(user);
             }
         }
+    }
+
+    onEnter(){
+
     }
 
     render() {

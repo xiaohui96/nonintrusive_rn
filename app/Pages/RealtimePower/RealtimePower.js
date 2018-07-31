@@ -23,7 +23,9 @@ import RealtimeDevice_CelijiaExpr from './RealtimeDevice_CelijiaExpr'
 export default class RealtimePower extends Reflux.Component {
     constructor(props) {
         super(props);
-        this.state = {};
+        this.state = {
+            deviceList:undefined
+        };
     }
 
     getDevices=(user)=>{
@@ -31,7 +33,7 @@ export default class RealtimePower extends Reflux.Component {
         if(user!=undefined){
             DeviceUtils.getDevices(user.id,
                 (data)=>{
-                    console.log(data);
+                    //console.log(data);
                     this.setState({
                         deviceList:data
                     });
@@ -40,9 +42,10 @@ export default class RealtimePower extends Reflux.Component {
         }
     }
 
-    onEnter(){
+    componentDidMount(){
+        console.log("Realtime Power mount");
         const {router}=this.props;
-        console.log("Enter RealtimePower");
+        //console.log("Enter RealtimePower");
         if(router!=undefined){
             const {user}=router.state;
             if(user!=undefined){
@@ -53,6 +56,11 @@ export default class RealtimePower extends Reflux.Component {
                 //console.log(user);
             }
         }
+    }
+
+    onEnter(){
+        //console.log(this.props.test);
+
     }
 
     onExit(){
