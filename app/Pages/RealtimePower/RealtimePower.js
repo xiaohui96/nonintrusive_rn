@@ -84,9 +84,6 @@ export default class RealtimePower extends Reflux.Component {
                                 case 1: //测力佳三相表
                                 return <RealtimeDevice_CelijiaExpr device={device} key={i}/>;
                                 break;
-                                case 2: //许继模块电能表
-                                    return <RealtimeDevice_XujiExpr device={device} key={i}/>;
-                                    break;
                             }
                         })
                     }
