@@ -1,15 +1,6 @@
 import React, {Component} from 'react';
 import Reflux from 'reflux';
-
-import Echarts from 'native-echarts';
-
-import {
-    StyleSheet,
-    Text,
-    View,
-    Image,
-} from 'react-native';
-
+import ReactEcharts from 'echarts-for-react';
 import moment from 'moment';
 
 import {Card, Button, WhiteSpace, WingBlank,DatePicker,Tag} from 'antd-mobile-rn'
@@ -93,48 +84,37 @@ export default class HistoryDevice_CelijiaExpr extends Reflux.Component {
         console.log(startTime + 0);
         //生成Chart图，显示历史数据
         var getOption = () => {
-            var iAdata = [];
-            var iBdata = [];
-            var iCdata = [];
+            var pdata = [];
+            var qdata = []
             var count = startTime + 0;
 
             historyPower.forEach((item, index) => {
                 var time = moment(item.time);
                 while (count < time) {
-                    iAdata.push({
+                    pdata.push({
                         value: [moment(count).format(), null]
                     });
-                    iBdata.push({
-                        value: [moment(count).format(), null]
-                    });
-                    iCdata.push({
+                    qdata.push({
                         value: [moment(count).format(), null]
                     });
                     count += interval;
                 }
-                iAdata.push({
+                pdata.push({
                     name: time.format("YY-MM-DD HH:mm"),
-                    value: [time.format(), item.iA]
+                    value: [time.format(), item.activeP]
                 });
-                iBdata.push({
+                qdata.push({
                     name: time.format("YY-MM-DD HH:mm"),
-                    value: [time.format(), item.iB]
-                });
-                iCdata.push({
-                    name: time.format("YY-MM-DD HH:mm"),
-                    value: [time.format(), item.iC]
+                    value: [time.format(), item.activeQ]
                 });
                 count += interval;
             });
 
             while (count < endTime) {
-                iAdata.push({
+                pdata.push({
                     value: [moment(count).format(), null]
                 });
-                iBdata.push({
-                    value: [moment(count).format(), null]
-                });
-                iCdata.push({
+                qdata.push({
                     value: [moment(count).format(), null]
                 });
                 count += interval;
@@ -152,8 +132,11 @@ export default class HistoryDevice_CelijiaExpr extends Reflux.Component {
                         animation: false
                     }
                 },
+                title: {
+                    text: '功率'
+                },
                 legend: {
-                    data: ['A相电流', 'B相电流', 'C相电流']
+                    data: ['有功功率', '无功功率', ]
                 },
                 xAxis: {
                     type: 'time',
@@ -174,103 +157,39 @@ export default class HistoryDevice_CelijiaExpr extends Reflux.Component {
                         type: 'line',
                         showSymbol: false,
                         hoverAnimation: false,
-                        data: iAdata
+                        data: pdata
                     },
                     {
                         name: 'B相电流',
                         type: 'line',
                         showSymbol: false,
                         hoverAnimation: false,
-                        data: iBdata
+                        data: qdata
                     },
-                    {
-                        name: 'C相电流',
-                        type: 'line',
-                        showSymbol: false,
-                        hoverAnimation: false,
-                        data: iCdata
-                    }]
+                    ]
             };
 
         }
 
         return (
-            <Card>
+            <Card title={"设备号："+device.mac+" ["+device.typename+"]"}>
 
-                <Card.Header
-                    title={"设备号：" + device.mac}
-                />
+                <div>
+                    <DateRange startTime={startTime} endTime={endTime} onChange={this.onDateTimeChange}/>
+                    <Button onClick={()=>{this.getHistoryPower()}}>
+                        查询数据
+                    </Button>
+                </div>
+                {
+                    historyPower==undefined?null:<ReactEcharts
+                        option={getOption()}
+                        style={{height: '300px', width: '100%'}}
+                    />
+                }
 
-                <Card.Body>
-                    <View>
-
-                        <View style={{flex: 1, flexDirection: 'row',}}>
-
-                            <View style={{flex: 1}}><Button onClick={
-                                () => {
-                                    //console.log("Today");
-                                    this.getHistoryPower(moment().startOf('day'), moment().endOf('day'));
-                                }
-                            }>今天</Button></View>
-                            <View style={{flex: 1}}><Button onClick={
-                                () => {
-                                    //console.log("Today");
-                                    this.getHistoryPower(moment().subtract(3, 'days'), moment().endOf('day'));
-                                }
-                            }>前三天</Button></View>
-                            <View style={{flex: 1}}><Button onClick={
-                                () => {
-                                    //console.log("Today");
-                                    this.getHistoryPower(moment().startOf('week'), moment().endOf('week'));
-                                }
-                            }>前一周</Button></View>
-                            <View style={{flex: 1}}><Button onClick={
-                                () => {
-                                    //console.log("Today");
-                                    this.getHistoryPower(moment().startOf('week'), moment().endOf('week'));
-                                }
-                            }>前一月</Button></View>
-                        </View>
-
-                        {(() => {
-                                if (historyPower == null) {
-                                    return (
-
-                                        <Text style={{marginLeft: 16}}>读取中，请稍后...</Text>
-
-                                    );
-                                }
-                                else if (historyPower == undefined) {
-                                    return (
-
-                                        <Text style={{marginLeft: 16}}>设备已下线...</Text>
-
-                                    );
-                                }
-                                else {
-                                    return (
-                                        <WingBlank>
-                                            <Echarts option={getOption()} height={300}/>
-                                        </WingBlank>
-                                    );
-                                }
-吗
-                            }
-                        )()}
-
-                        <Button onClick={() => {
-                            this.getHistoryPower()
-                        }}>
-                            刷新
-                        </Button>
-                    </View>
-                </Card.Body>
-
-                <Card.Footer
-
-                    content={"[" + device.typename + "]"}
-                />
-
+                <button onClick={()=>{this.getHistoryPower()}}>
+                    刷新
+                </button>
             </Card>
         );
     }
