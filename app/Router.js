@@ -5,7 +5,7 @@
 import React, {Component} from 'react';
 import Reflux from 'reflux';
 import { StyleSheet, Text, View, BackHandler, StatusBar, DeviceEventEmitter } from 'react-native';
-import CardStackStyleInterpolator from 'react-navigation/src/views/CardStack/CardStackStyleInterpolator';
+import CardStackStyleInterpolator from 'react-navigation/src/views/StackView/StackViewStyleInterpolator';
 
 import {
     Scene,

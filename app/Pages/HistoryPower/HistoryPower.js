@@ -78,6 +78,9 @@ export default class HistoryPower extends Reflux.Component {
                                 case 1: //测力佳三相表
                                     return <HistoryDevice_CelijiaExpr device={device} key={i}/>;
                                     break;
+                                case 2: //许继模块电能表（实验）
+                                    return <HistoryDevice_XujiExpr device={device} key={i}/>;
+                                    break;
                             }
                         })
                     }
