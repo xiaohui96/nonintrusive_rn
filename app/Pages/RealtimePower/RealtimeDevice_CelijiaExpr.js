@@ -63,7 +63,7 @@ export default class RealtimeDevice_CelijiaExpr extends Reflux.Component {
                                         </View>
                                     );
                                 }
-                                else if(realtimePower==undefined){
+                                else if(realtimePower===undefined){
                                     return (
                                         <View style={{ height: 42 }}>
                                             <Text style={{ marginLeft: 16 }}>设备已下线...</Text>

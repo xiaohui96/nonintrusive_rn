@@ -29,7 +29,7 @@ export default class HistoryPower extends Reflux.Component {
 
     getDevices=(user)=>{
         console.log(user);
-        if(user!=undefined){
+        if(user!==undefined){
             DeviceUtils.getDevices(user.id,
                 (data)=>{
                     console.log(data);
@@ -45,9 +45,9 @@ export default class HistoryPower extends Reflux.Component {
         console.log("History Power mount");
         const {router}=this.props;
         //console.log("Enter RealtimePower");
-        if(router!=undefined){
+        if(router!==undefined){
             const {user}=router.state;
-            if(user!=undefined){
+            if(user!==undefined){
                 this.setState({
                     user:user
                 });
@@ -64,7 +64,7 @@ export default class HistoryPower extends Reflux.Component {
     render() {
         const {user,deviceList}=this.state;
         //console.log(user,deviceList);
-        if(user==undefined||deviceList==undefined){
+        if(user===undefined||deviceList===undefined){
             return null;
         }
 

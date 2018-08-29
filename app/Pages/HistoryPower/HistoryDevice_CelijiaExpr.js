@@ -28,7 +28,7 @@ export default class HistoryDevice_CelijiaExpr extends Reflux.Component {
     constructor(props) {
         super(props);
         this.state = {
-            realtimePower: {},
+            realtimePower:{},
             startTime: moment().startOf('day'),
             endTime: moment().endOf('day')
         }
@@ -52,12 +52,12 @@ export default class HistoryDevice_CelijiaExpr extends Reflux.Component {
         var deviceId = this.props.device.id;
         var {startTime, endTime} = this.state;
         //console.log(startT+0);
-        if (startT != undefined) {
+        if (startT !==undefined) {
             startTime = startT;
         }
 
-        if (endT != undefined) {
-            emdTime = endT;
+        if (endT !==undefined) {
+            endTime = endT;
         }
         //console.log(startTime,endTime);
 
@@ -79,7 +79,6 @@ export default class HistoryDevice_CelijiaExpr extends Reflux.Component {
                 console.log("Can't get history data");
             })
     }
-
     componentWillMount() {
         super.componentWillMount();
         //PowerActions.GetRealtimePower(this.props.device.id);
@@ -146,7 +145,7 @@ export default class HistoryDevice_CelijiaExpr extends Reflux.Component {
                     trigger: 'axis',
                     formatter: function (params) {
                         params = params[0];
-                        return (params.name == undefined || params.name == "") ? "" : params.name + ' : ' + params.value[1];
+                        return (params.name ===undefined || params.name ==="") ? "" : params.name + ' : ' + params.value[1];
                     },
                     axisPointer: {
                         animation: false
@@ -240,7 +239,7 @@ export default class HistoryDevice_CelijiaExpr extends Reflux.Component {
 
                                     );
                                 }
-                                else if (historyPower == undefined) {
+                                else if (historyPower ===undefined) {
                                     return (
 
                                         <Text style={{marginLeft: 16}}>设备已下线...</Text>
@@ -254,7 +253,6 @@ export default class HistoryDevice_CelijiaExpr extends Reflux.Component {
                                         </WingBlank>
                                     );
                                 }
-吗
                             }
                         )()}
 

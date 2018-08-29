@@ -1,6 +1,6 @@
 import React from 'react';
 import Reflux from 'reflux';
-import { DatePicker } from 'antd';
+import { DatePicker } from 'antd-mobile-rn';
 
 class DateRange extends Reflux.Component {
 

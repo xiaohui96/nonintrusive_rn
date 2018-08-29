@@ -50,7 +50,7 @@ export default class RealtimeDevice_XujiExpr extends Reflux.Component {
                     <Card.Body>
 
                     {( ()=> {
-                            if (realtimePower == undefined) {
+                            if (realtimePower === undefined) {
                                 return (
                                     <View style={{ height: 42 }}>
                                         <Text style={{marginLeft: 16}}>设备已下线...</Text>
@@ -75,11 +75,11 @@ export default class RealtimeDevice_XujiExpr extends Reflux.Component {
                                         <Text style={{marginLeft: 16}}>P序列：{realtimePower.activeP}</Text>
                                         <Text style={{marginLeft: 16}}>Q序列：{realtimePower.activeQ}</Text>
                                         <Text style={{marginLeft: 16}}>谐波：{realtimePower.harm}</Text>
-                                        <button onClick={() => {
+                                        <Button onClick={() => {
                                             this.getRealtimePower(device.id)
                                         }}>
                                             刷新
-                                        </button>
+                                        </Button>
                                     </View>
                                 );
                             }
