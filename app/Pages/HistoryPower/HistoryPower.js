@@ -20,7 +20,7 @@ import DeviceUtils from '../utils/DeviceUtils'
 
 import HistoryDevice_CelijiaExpr from './HistoryDevice_CelijiaExpr'
 import HistoryDevice_XujiExpr from './HistoryDevice_XujiExpr'
-
+import HistoryDevice_XujiModule from './HistoryDevice_XujiModule'
 export default class HistoryPower extends Reflux.Component {
     constructor(props) {
         super(props);
@@ -80,6 +80,9 @@ export default class HistoryPower extends Reflux.Component {
                                     break;
                                 case 2: //许继模块电能表（实验）
                                     return <HistoryDevice_XujiExpr device={device} key={i}/>;
+                                    break;
+                                case 3: //许继模块电能表（就地）
+                                    return <HistoryDevice_XujiModule device={device} key={i}/>;
                                     break;
                             }
                         })
